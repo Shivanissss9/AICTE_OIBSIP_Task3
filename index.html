@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #85b4d2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #5fafd4;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #343a40;
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            outline: none;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        li {
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f8f9fa;
+            transition: background-color 0.3s ease;
+        }
+
+        li:hover {
+            background-color: #e9ecef;
+        }
+
+        .task-text {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .deadline {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .btn-group {
+            display: flex;
+        }
+
+        .btn {
+            padding: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #ced4da;
+        }
+
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            margin-right: 5px;
+        }
+
+        .complete-btn {
+            background-color: #3ccb3c;
+            color: white;
+        }
+
+        .completed-tasks {
+            margin-top: 30px;
+        }
+
+        .completed-tasks h2 {
+            color: #28a745;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>To-Do App</h1>
+
+    <form id="todo-form">
+        <input type="text" id="todo-input" placeholder="Add a new task">
+        <input type="date" id="deadline-input" placeholder="Deadline">
+        <input type="submit" value="Add Task">
+    </form>
+
+    <ul id="pending-tasks">
+        <!-- Pending tasks will be dynamically added here -->
+    </ul>
+
+    <div class="completed-tasks">
+        <h2>Completed Tasks</h2>
+        <ul id="completed-tasks">
+            <!-- Completed tasks will be dynamically added here -->
+        </ul>
+    </div>
+</div>
+
+<script>
+    document.getElementById('todo-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get input values
+        var todoInput = document.getElementById('todo-input');
+        var todoText = todoInput.value;
+        var deadlineInput = document.getElementById('deadline-input');
+        var deadlineDate = deadlineInput.value;
+
+        if (todoText.trim() !== '') {
+            // Create a new list item
+            var li = document.createElement('li');
+            li.classList.add('task-item');
+
+            // Task text
+            var taskText = document.createElement('span');
+            taskText.textContent = todoText;
+            taskText.classList.add('task-text');
+            li.appendChild(taskText);
+
+            // Deadline
+            var deadlineSpan = document.createElement('span');
+            deadlineSpan.textContent = 'Deadline: ' + deadlineDate;
+            deadlineSpan.classList.add('deadline');
+            li.appendChild(deadlineSpan);
+
+            // Create a button group
+            var btnGroup = document.createElement('div');
+            btnGroup.classList.add('btn-group');
+
+            // Create a delete button
+            var deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.classList.add('btn', 'delete-btn');
+            deleteBtn.onclick = function() {
+                li.remove();
+            };
+            btnGroup.appendChild(deleteBtn);
+
+            // Create a complete button
+            var completeBtn = document.createElement('button');
+            completeBtn.textContent = 'Complete';
+            completeBtn.classList.add('btn', 'complete-btn');
+            completeBtn.onclick = function() {
+                li.style.textDecoration = 'line-through';
+                completeBtn.style.display = 'none';
+                document.getElementById('completed-tasks').appendChild(li);
+            };
+            btnGroup.appendChild(completeBtn);
+
+            li.appendChild(btnGroup);
+
+            // Append the new item to the pending tasks list
+            document.getElementById('pending-tasks').appendChild(li);
+
+            // Clear the input fields
+            todoInput.value = '';
+            deadlineInput.value = '';
+        }
+    });
+</script>
+
+</body>
+</html>
