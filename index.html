@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #c36497;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        li:hover {
+            background-color: #77d0e1;
+        }
+
+        .delete-btn {
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 5px;
+            cursor: pointer;
+            float: right;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #ff3333;
+        }
+
+        /* Different colors for to-do items */
+        .red {
+            background-color: #ffcccc;
+        }
+
+        .green {
+            background-color: #ccffcc;
+        }
+
+        .blue {
+            background-color: #cce6ff;
+        }
+
+        .yellow {
+            background-color: #ffffcc;
+        }
+
+        /* Background color outside the border */
+        body:before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f4f4f4;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>To-Do List</h1>
+
+    <form id="todo-form">
+        <input type="text" id="todo-input" placeholder="Enter your to-do item">
+        <input type="submit" value="Add">
+    </form>
+
+    <ul id="todo-list">
+        <!-- To-do items will be dynamically added here -->
+    </ul>
+</div>
+
+<script>
+    document.getElementById('todo-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get input value
+        var todoInput = document.getElementById('todo-input');
+        var todoText = todoInput.value;
+
+        // Create a new list item
+        var li = document.createElement('li');
+        li.textContent = todoText;
+
+        // Randomly select a color class
+        var colors = ['red', 'green', 'blue', 'yellow'];
+        var randomColor = colors[Math.floor(Math.random() * colors.length)];
+        li.classList.add(randomColor);
+
+        // Create a delete button
+        var deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'X';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.onclick = function() {
+            li.remove();
+        };
+
+        // Append the delete button to the list item
+        li.appendChild(deleteBtn);
+
+        // Append the new item to the list
+        document.getElementById('todo-list').appendChild(li);
+
+        // Clear the input field
+        todoInput.value = '';
+    });
+</script>
+
+</body>
+</html>
